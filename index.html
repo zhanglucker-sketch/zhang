@@ -42,27 +42,28 @@ body {
   transition: background-position 0.3s var(--ease);
 }
 
-/* Logo矩阵 - 修复右侧裁切 + 正方形样式 */
+/* Logo矩阵 - 核心修正：移除最小宽度限制，宽屏贴右、窄屏自适应 */
 .logo-matrix {
   display: grid;
-  grid-template-columns: repeat(6, var(--logo-base-size)); /* 固定列宽，避免自适应裁切 */
+  grid-template-columns: repeat(6, var(--logo-base-size));
   gap: var(--logo-gap);
   mask-image: radial-gradient(circle, black 40%, rgba(0,0,0,0.3) 80%, transparent 100%);
   -webkit-mask-image: radial-gradient(circle, black 40%, rgba(0,0,0,0.3) 80%, transparent 100%);
   background: linear-gradient(135deg, rgba(90, 110, 255, 0.05), rgba(255, 80, 180, 0.05));
   padding: 20px;
   border-radius: 8px;
-  margin-left: auto; /* 关键：贴右侧 */
-  /* 修复裁切：添加最小宽度和溢出处理 */
-  min-width: calc(6 * var(--logo-base-size) + 5 * var(--logo-gap) + 40px); /* 6列宽度 + 5个间距 + 左右内边距 */
-  overflow: visible; /* 确保内容不被裁切 */
+  margin-left: auto; /* 宽屏贴右侧 */
+  margin-right: auto; /* 窄屏自动居中 */
+  max-width: 100%; /* 关键：不超过容器宽度 */
+  min-width: auto; /* 移除强制最小宽度（核心修正） */
+  overflow: visible;
 }
 
 .logo-item {
   width: var(--logo-base-size);
   height: var(--logo-base-size);
   aspect-ratio: 1/1;
-  border-radius: 0; /* 改为正方形 */
+  border-radius: 0;
   background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
@@ -70,27 +71,25 @@ body {
   justify-content: center;
   position: relative;
   cursor: pointer;
-  transition: all 0.4s ease; /* 增加所有属性过渡 */
+  transition: all 0.4s ease;
   overflow: hidden;
 }
 
-/* 鼠标悬浮单个logo放大效果 */
 .logo-item:hover {
-  transform: scale(1.1); /* 放大10% */
-  z-index: 10; /* 放大后显示在最上层 */
+  transform: scale(1.1);
+  z-index: 10;
 }
 
 .logo-item img {
-  width: 100%; /* 填充整个正方形 */
-  height: 100%; /* 填充整个正方形 */
-  object-fit: cover; /* 填充模式 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   filter: grayscale(0.6) brightness(0.9);
   opacity: 0.3;
   transition: all 0.4s ease;
   pointer-events: none;
 }
 
-/* 容器：防止左右裁切 */
 .container { 
   max-width: 1400px; 
   margin: 0 auto; 
@@ -157,7 +156,6 @@ body {
   width: 100%;
 }
 
-
 .hero {
   height: 100vh;
   display: flex; 
@@ -165,7 +163,7 @@ body {
   justify-content: space-between;
   padding-top: 100px;
   padding-bottom: 40px;
-  flex-wrap: nowrap; /* 防止文字被挤换行 */
+  flex-wrap: nowrap;
   gap: 40px;
   width: 100%;
   overflow: visible;
@@ -183,9 +181,8 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* 修复裁切：确保容器不限制宽度 */
   overflow: visible;
-  padding-left: 20px; /* 增加左侧间距，避免贴边裁切 */
+  padding-left: 20px;
 }
 
 .hero-tag {
@@ -542,7 +539,7 @@ body {
   color: var(--text-dim);
 }
 
-/* 移动端适配 */
+/* 移动端适配 - 核心修正LOGO矩阵 */
 @media (max-width: 968px) {
   .container {
     padding: 0 20px !important;
@@ -560,19 +557,24 @@ body {
     gap: 1px;
   }
   .hero {
-    flex-direction: column;
+    flex-direction: column; /* 强制上下布局 */
     justify-content: center;
     text-align: center;
     flex-wrap: wrap;
+    height: auto; /* 取消100vh高度限制，避免内容溢出 */
+    padding-top: 120px;
+    padding-bottom: 60px;
   }
   .hero-content {
     width: 100%;
     padding-right: 0;
+    margin-bottom: 40px; /* 增加和LOGO矩阵的间距 */
   }
   .hero-logo-wrapper {
     width: 100%;
-    justify-content: center;
+    justify-content: center; /* 居中展示LOGO矩阵 */
     margin-top: 20px;
+    padding-left: 0;
   }
   .hero h1 { 
     font-size: clamp(2.5rem, 10vw, 4rem);
@@ -644,14 +646,13 @@ body {
     --logo-base-size: 60px;
     --logo-gap: 8px;
   }
+  /* LOGO矩阵移动端核心适配 */
   .logo-matrix {
-    max-width: calc(6 * var(--logo-base-size) + 5 * var(--logo-gap) + 40px);
+    grid-template-columns: repeat(5, var(--logo-base-size)); /* 6列→3列 */
+    max-width: 100%; /* 不超过屏幕宽度 */
+    min-width: auto; /* 彻底移除最小宽度 */
+    margin: 0 auto; /* 居中 */
     padding: 15px;
-    margin: 0 auto;
-    grid-template-columns: repeat(6, var(--logo-base-size));
-  }
-  .hero-logo-wrapper {
-    padding-left: 0;
   }
 }
 
@@ -670,8 +671,11 @@ body {
     --logo-base-size: 40px;
     --logo-gap: 6px;
   }
+  /* 手机屏LOGO矩阵适配 */
   .logo-matrix {
-    max-width: calc(6 * var(--logo-base-size) + 5 * var(--logo-gap) + 40px);
+    grid-template-columns: repeat(2, var(--logo-base-size)); /* 3列→2列 */
+    max-width: 100%;
+    min-width: auto;
   }
 }
 
@@ -890,9 +894,9 @@ body {
     <h2 class="section-title">Selected Works <span>代表作品</span></h2>
     <div class="portfolio-grid">
       <!-- 核心修改：将PDF链接改为JPEG图片链接 -->
-      <a href="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/brand-case.jpg?response-content-type=image/jpeg&response-content-disposition=inline" target="_blank" class="reveal">
+      <a href="assets/images/brand-case.jpg" target="_blank" class="reveal">
         <div class="pf-image-wrap">
-          <img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/brand.jpg?response-content-type=image/jpeg&response-content-disposition=inline" alt="品牌全案视觉">
+          <img src="assets/images/brand.jpg" alt="品牌全案视觉">
         </div>
         <div class="pf-info">
           <span class="pf-category">Brand Identity <span class="cn">| 品牌视觉体系</span></span>

@@ -1061,12 +1061,12 @@ for (let i = 0; i < totalLogos; i++) {
   item.className = 'logo-item';
   // 自动加载 1.jpg、2.jpg、3.jpg...
   const imgNum = (i % 30) + 1;
-  // 👇 这里我改成懒加载格式（src 空，data-src 放真实地址）
+  // 懒加载格式（保留）
   item.innerHTML = `<img data-src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/logo/${imgNum}.jpg" src="" alt="LOGO">`;
   matrix.appendChild(item);
 }
 
-// ==============================================
+// LOGO 懒加载（保留，不影响高亮）
 const logoItems = document.querySelectorAll('.logo-item img');
 const logoObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1079,14 +1079,14 @@ const logoObserver = new IntersectionObserver((entries) => {
 });
 logoItems.forEach(img => logoObserver.observe(img));
 
-// 你原来的鼠标光效逻辑（完全不变）
+// 你原来的鼠标光效逻辑（修复高亮参数，强化视觉效果）
 const items = document.querySelectorAll('.logo-item');
 
 matrix.addEventListener('mousemove', (e) => {
   const { clientX: mouseX, clientY: mouseY } = e;
 
   items.forEach(item => {
-    const rect = item.getBoundingRect();
+    const rect = item.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     const distance = Math.hypot(mouseX - centerX, mouseY - centerY);
@@ -1094,15 +1094,17 @@ matrix.addEventListener('mousemove', (e) => {
     const radius = 160;
     const strength = Math.max(0, 1 - distance / radius); 
 
-    // 只保留颜色辐射，完全移除缩放
-    const opacity = 0.3 + strength * 0.7;
-    const grayscale = 0.6 * (1 - strength);
+    // 👇 核心修复：强化高亮参数，让效果更明显
+    const opacity = 0.4 + strength * 0.6; // 基础透明度提高，高亮时更亮
+    const grayscale = 0.8 * (1 - strength); // 灰度弱化更多，高亮时几乎无灰度
+    const brightness = 1 + strength * 0.4; // 亮度提升幅度加大
 
-    item.style.background = `rgba(255, 255, 255, ${0.03 + strength * 0.1})`;
-    item.style.borderColor = `rgba(168, 176, 255, ${strength * 0.3})`;
+    // 背景和边框高亮强化
+    item.style.background = `rgba(255, 255, 255, ${0.05 + strength * 0.15})`;
+    item.style.borderColor = `rgba(168, 176, 255, ${strength * 0.6})`;
     
     const img = item.querySelector('img');
-    img.style.filter = `grayscale(${grayscale}) brightness(${1 + strength * 0.2})`;
+    img.style.filter = `grayscale(${grayscale}) brightness(${brightness})`;
     img.style.opacity = opacity;
   });
 });

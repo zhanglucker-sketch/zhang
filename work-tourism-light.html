@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>作品预览 | ZHANG QI</title>
+<style>
+:root { --accent: #ffffff; --bg: #050505; --glass: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.1); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background: var(--bg); color: var(--accent); font-family: sans-serif; overflow: hidden; height: 100vh; }
+
+.nav {
+  position: fixed; top:0; left:0; width:100%; height:70px;
+  backdrop-filter: blur(20px); background: var(--glass);
+  border-bottom:1px solid var(--border);
+  display: flex; align-items: center; padding:0 24px; z-index: 1000;
+}
+.nav-back { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+
+.viewer {
+  width: 100vw; height: 100vh; position: relative;
+  cursor: grab; overflow: hidden; background: #000;
+}
+.work-img {
+  position: absolute; transform-origin: 0 0;
+  will-change: transform; user-select: none; -webkit-user-drag: none;
+  display: block;
+}
+
+.download-bar { position: fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index: 1000; }
+.download-btn {
+  padding:12px 32px; background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px); color:#fff; border: 1px solid var(--border);
+  border-radius: 50px; cursor: pointer; transition: all 0.3s;
+}
+.download-btn:hover { background: rgba(255,255,255,0.2); }
+
+.tip {
+  position: fixed; top: 85px; right: 20px;
+  background: var(--glass); padding: 6px 12px; border-radius: 6px;
+  font-size: 12px; color: rgba(255,255,255,0.4); z-index: 100;
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html#work" class="nav-back">← 返回作品集</a>
+</div>
+<div class="tip">滚轮缩放 / 拖拽查看</div>
+
+<div class="viewer" id="viewer">
+  <img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/tourism-light.jpg" class="work-img" id="workImg">
+</div>
+
+<div class="download-bar">
+  <button class="download-btn" id="downloadBtn">下载高清原件</button>
+</div>
+
+<script>
+const img = document.getElementById('workImg');
+const viewer = document.getElementById('viewer');
+const downloadBtn = document.getElementById('downloadBtn');
+
+let scale = 1, minScale = 0.1, translateX = 0, translateY = 0;
+let isDragging = false, startX = 0, startY = 0;
+
+// 初始化：计算比例与位置
+function initImage() {
+    if (!img.naturalWidth) return;
+
+    const vW = window.innerWidth;
+    const vH = window.innerHeight - 70;
+    const iW = img.naturalWidth;
+    const iH = img.naturalHeight;
+
+    // 计算缩放边界
+    const scaleToFitWidth = vW / iW;
+    const scaleToFitHeight = vH / iH;
+    
+    // 最小缩放：能看到全貌；初始缩放：宽度铺满
+    minScale = Math.min(scaleToFitWidth, scaleToFitHeight);
+    scale = scaleToFitWidth; 
+
+    // 初始位置：靠顶居中
+    translateX = (window.innerWidth - iW * scale) / 2;
+    translateY = 70;
+
+    updateTransform();
+}
+
+function updateTransform() {
+    const vW = window.innerWidth;
+    const vH = window.innerHeight;
+    const curW = img.naturalWidth * scale;
+    const curH = img.naturalHeight * scale;
+
+    // 水平边界计算
+    if (curW <= vW) {
+        translateX = (vW - curW) / 2;
+    } else {
+        translateX = Math.min(0, Math.max(translateX, vW - curW));
+    }
+
+    // 垂直边界计算
+    if (curH <= (vH - 70)) {
+        translateY = 70 + (vH - 70 - curH) / 2;
+    } else {
+        translateY = Math.min(70, Math.max(translateY, vH - curH));
+    }
+
+    img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+}
+
+// 滚轮事件
+viewer.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const oldScale = scale;
+    const delta = e.deltaY > 0 ? 0.85 : 1.15;
+    scale = Math.min(Math.max(minScale, scale * delta), 5);
+
+    // 以鼠标为中心缩放
+    const rect = img.getBoundingClientRect();
+    const ratio = scale / oldScale;
+    translateX = e.clientX - (e.clientX - translateX) * ratio;
+    translateY = e.clientY - (e.clientY - translateY) * ratio;
+
+    updateTransform();
+}, { passive: false });
+
+// 鼠标/触摸 拖拽逻辑
+const handleStart = (e) => {
+    isDragging = true;
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    startX = cx - translateX;
+    startY = cy - translateY;
+    img.style.transition = 'none';
+};
+
+const handleMove = (e) => {
+    if (!isDragging) return;
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    translateX = cx - startX;
+    translateY = cy - startY;
+    updateTransform();
+};
+
+viewer.addEventListener('mousedown', handleStart);
+window.addEventListener('mousemove', handleMove);
+window.addEventListener('mouseup', () => isDragging = false);
+viewer.addEventListener('touchstart', handleStart, {passive: true});
+window.addEventListener('touchmove', (e) => { if(isDragging) { e.preventDefault(); handleMove(e); } }, {passive: false});
+window.addEventListener('touchend', () => isDragging = false);
+
+// 窗口大小变动重新适配
+window.addEventListener('resize', initImage);
+
+// 解决图片加载顺序问题
+if (img.complete) { initImage(); } else { img.onload = initImage; }
+
+// 下载逻辑：增加跨域错误捕获
+downloadBtn.onclick = async () => {
+    const originalText = downloadBtn.innerText;
+    downloadBtn.innerText = "处理中...";
+    try {
+        const response = await fetch(img.src, { mode: 'cors' });
+        if (!response.ok) throw new Error('Network response was not ok');
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ZHANGQI_Work_HighRes.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    } catch (err) {
+        console.warn("下载受限，将打开新窗口：", err);
+        window.open(img.src, '_blank');
+    } finally {
+        downloadBtn.innerText = originalText;
+    }
+};
+</script>
+</body>
+</html>

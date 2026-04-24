@@ -730,17 +730,24 @@ body {
       </div>
     </div>
     
-    <div class="personal-info reveal">
-      <div class="personal-info-item">
-        <span class="personal-info-label">出生年月 /</span>
-        <span class="personal-info-value">1991年9月</span>
-      </div>
-      <div class="personal-info-item">
-        <span class="personal-info-label">毕业院校 /</span>
-        <span class="personal-info-value">中南民族大学</span>
-      </div>
-    </div>
-  </section>
+<div class="personal-info reveal">
+  <div class="personal-info-item">
+    <span class="personal-info-label">出生年月 /</span>
+    <span class="personal-info-value">1991年9月</span>
+  </div>
+  <div class="personal-info-item">
+    <span class="personal-info-label">毕业院校 /</span>
+    <span class="personal-info-value">中南民族大学</span>
+  </div>
+  <div class="personal-info-item">
+    <span class="personal-info-label">联系电话 /</span>
+    <span class="personal-info-value">15220107783</span>
+  </div>
+  <div class="personal-info-item">
+    <span class="personal-info-label">邮箱 /</span>
+    <span class="personal-info-value">369887709@qq.com</span>
+  </div>
+</div>
 
   <section id="advantages" class="section">
     <h2 class="section-title">Core Strengths <span>核心优势</span></h2>
@@ -1054,17 +1061,32 @@ for (let i = 0; i < totalLogos; i++) {
   item.className = 'logo-item';
   // 自动加载 1.jpg、2.jpg、3.jpg...
   const imgNum = (i % 30) + 1;
-  item.innerHTML = `<img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/logo/${imgNum}.jpg" alt="LOGO">`;
+  // 👇 这里我改成懒加载格式（src 空，data-src 放真实地址）
+  item.innerHTML = `<img data-src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/logo/${imgNum}.jpg" src="" alt="LOGO">`;
   matrix.appendChild(item);
 }
 
+// ==============================================
+const logoItems = document.querySelectorAll('.logo-item img');
+const logoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      logoObserver.unobserve(img);
+    }
+  });
+});
+logoItems.forEach(img => logoObserver.observe(img));
+
+// 你原来的鼠标光效逻辑（完全不变）
 const items = document.querySelectorAll('.logo-item');
 
 matrix.addEventListener('mousemove', (e) => {
   const { clientX: mouseX, clientY: mouseY } = e;
 
   items.forEach(item => {
-    const rect = item.getBoundingClientRect();
+    const rect = item.getBoundingRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     const distance = Math.hypot(mouseX - centerX, mouseY - centerY);

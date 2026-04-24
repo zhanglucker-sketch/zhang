@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品 | 张琪 ZHANG QI</title>
+<style>
+:root {
+  --accent: #ffffff;
+  --bg: #050505;
+  --text-dim: rgba(255,255,255,0.4);
+  --glass: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.1);
+  --ease: cubic-bezier(0.23,1,0.32,1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--accent);
+  font-family: "Inter", "PingFang SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 90px;
+}
+
+/* 悬浮导航栏（保留） */
+.nav {
+  position: fixed;
+  top:0; left:0; width:100%; height:80px;
+  backdrop-filter: blur(20px);
+  background: var(--glass);
+  border-bottom:1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding:0 24px;
+  z-index: 999;
+}
+
+.nav-back {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap:8px;
+  transition: all .3s;
+}
+.nav-back:hover { opacity:0.8; }
+.nav-back::before { content:"←"; font-size:1rem; }
+
+/* 图片查看器 —— 支持拖动 + 缩放 */
+.viewer {
+  width: 100vw;
+  height: calc(100vh - 170px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.work-img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: grab;
+  transition: transform 0.1s ease;
+}
+
+.work-img:active {
+  cursor: grabbing;
+}
+
+/* 下载按钮 —— 毛玻璃美化版 */
+.download-bar {
+  position: fixed;
+  bottom:0; left:0; width:100%;
+  padding:20px;
+  text-align: center;
+  background: linear-gradient(transparent, #000);
+  z-index: 100;
+}
+.download-btn {
+  padding:12px 32px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px;
+  font-size:0.9rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+.download-btn:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+/* 提示 */
+.tip {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-dim);
+  z-index: 100;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 导航 -->
+<div class="nav">
+  <a href="index.html" class="nav-back">← 返回主页</a>
+</div>
+
+<div class="tip">拖动查看 / 滚轮缩放</div>
+
+<!-- 图片查看器 -->
+<div class="viewer" id="viewer">
+  <img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/brand.jpg" class="work-img" id="workImg">
+</div>
+
+<!-- 下载 -->
+<div class="download-bar">
+  <button class="download-btn" id="downloadBtn">下载高清原件</button>
+</div>
+
+<script>
+const img = document.getElementById('workImg');
+const viewer = document.getElementById('viewer');
+const downloadBtn = document.getElementById('downloadBtn');
+const imgSrc = img.src;
+
+// 缩放 + 位移变量
+let scale = 1;
+let x = 0, y = 0;
+let startX, startY, isDragging = false;
+let minScale = 1, maxScale = 3;
+
+// 鼠标按下开始拖动
+img.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  isDragging = true;
+  startX = e.clientX - x;
+  startY = e.clientY - y;
+  img.style.transition = 'none';
+});
+
+// 鼠标移动拖动图片
+window.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  x = e.clientX - startX;
+  y = e.clientY - startY;
+  updateTransform();
+});
+
+// 松开停止
+window.addEventListener('mouseup', () => {
+  isDragging = false;
+  img.style.transition = 'transform 0.2s ease';
+});
+
+// 阻止页面默认拖拽行为
+window.addEventListener('dragstart', (e) => {
+  e.preventDefault();
+});
+
+// 滚轮缩放
+img.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const newScale = e.deltaY < 0 ? scale * 1.1 : scale / 1.1;
+  scale = Math.min(Math.max(newScale, minScale), maxScale);
+  updateTransform();
+});
+
+// 更新图片位置 + 缩放
+function updateTransform() {
+  img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+}
+
+// 下载
+downloadBtn.onclick = () => {
+  const a = document.createElement('a');
+  a.href = imgSrc;
+  a.download = '品牌设计作品.jpg';
+  a.click();
+};
+
+// 移动端触摸缩放 + 拖动
+let touch1, touch2, initialTouchDistance, initialScaleAtTouch;
+let touchStartX, touchStartY, isTouchDragging = false;
+
+img.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    isTouchDragging = true;
+    touchStartX = e.touches[0].clientX - x;
+    touchStartY = e.touches[0].clientY - y;
+  }
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    touch1 = e.touches[0];
+    touch2 = e.touches[1];
+    initialTouchDistance = getDistance(touch1, touch1);
+    initialScaleAtTouch = scale;
+  }
+});
+
+img.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 1 && isTouchDragging) {
+    x = e.touches[0].clientX - touchStartX;
+    y = e.touches[0].clientY - touchStartY;
+    updateTransform();
+  }
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    const dist = getDistance(e.touches[0], e.touches[1]);
+    scale = Math.min(Math.max((dist / initialTouchDistance) * initialScaleAtTouch, minScale), maxScale);
+    updateTransform();
+  }
+});
+
+img.addEventListener('touchend', () => {
+  isTouchDragging = false;
+});
+
+function getDistance(touch1, touch2) {
+  const dx = touch2.clientX - touch1.clientX;
+  const dy = touch2.clientY - touch1.clientY;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+</script>
+
+</body>
+</html>

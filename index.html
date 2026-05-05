@@ -669,6 +669,15 @@ body {
     margin-top: 0 !important;
     margin-bottom: 40px !important;
   }
+  .aurora-featured .aurora-featured-image {
+    aspect-ratio: 16/10;
+  }
+  .aurora-featured .pf-name {
+    font-size: 1.4rem;
+  }
+  .aurora-featured .pf-desc {
+    font-size: 0.95rem;
+  }
   .advantage-grid { 
     grid-template-columns: 1fr; 
     gap: 1px;
@@ -964,6 +973,24 @@ body {
 .portfolio-grid a:nth-child(5) { transition-delay: 0.15s; }
 .portfolio-grid a:nth-child(6) { transition-delay: 0.25s; }
 
+/* AURORA featured card - 4:1 aspect ratio */
+.aurora-featured {
+  grid-column: span 12 !important;
+  margin-top: 0 !important;
+}
+.aurora-featured .aurora-featured-image {
+  aspect-ratio: 4/1;
+}
+.aurora-featured .pf-info {
+  margin-top: 30px;
+}
+.aurora-featured .pf-name {
+  font-size: 2rem;
+}
+.aurora-featured .pf-desc {
+  font-size: 1.1rem;
+}
+
 </style>
 
 <script>
@@ -1108,7 +1135,18 @@ var _hmt = _hmt || [];
   <section id="work" class="section">
     <h2 class="section-title">Selected Works <span>代表作品</span></h2>
     <div class="portfolio-grid">
-    
+
+      <a href="AURORA.html" target="_blank" class="reveal aurora-featured">
+        <div class="pf-image-wrap aurora-featured-image">
+          <img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/wyt.jpg" alt="AURORA品牌官网">
+        </div>
+        <div class="pf-info">
+          <span class="pf-category">Brand Web <span class="cn">| 品牌官网搭建</span></span>
+          <div class="pf-name">BRAND WEB | 品牌官网搭建</div>
+          <div class="pf-desc">品牌网页 0-1 全链路搭建— 网页 · 视觉 · 影像 · 模型 全案统筹</div>
+        </div>
+      </a>
+
       <a href="work-brand-case.html" target="_blank" class="reveal">
         <div class="pf-image-wrap">
           <img src="https://lucker-1255468956.cos.ap-guangzhou.myqcloud.com/assets/images/brand.jpg" alt="品牌全案视觉">
@@ -1174,9 +1212,9 @@ var _hmt = _hmt || [];
           <div class="pf-desc">城市地标光影叙事 · 空间创意导演 — 用光与影讲述一座城市的品牌故事</div>
         </div>
       </a>
+
     </div>
   </section>
-
 
   <section id="about" class="section">
     <h2 class="section-title">About Me <span>关于我</span></h2>

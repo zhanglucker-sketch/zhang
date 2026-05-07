@@ -229,6 +229,7 @@
             flex: 1;
             position: relative;
             max-width: 60%;
+            min-width: 320px;
             aspect-ratio: 16/9;
             overflow: hidden;
             cursor: pointer;
@@ -596,7 +597,7 @@
 
         .showcase-animation-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             aspect-ratio: 16 / 9;
             position: relative;
             cursor: pointer;
@@ -1621,6 +1622,58 @@
                 padding: 16px;
                 font-size: 14px;
             }
+
+            .hero-content {
+                padding: 0 32px;
+                gap: 40px;
+            }
+
+            .hero-image-sequence {
+                max-width: 100%;
+                width: 100%;
+                min-width: 0;
+                min-height: 350px;
+            }
+
+            .showcase-animation-container {
+                max-width: 100%;
+                min-height: 400px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+            .hero-content {
+                flex-direction: row;
+                align-items: center;
+                gap: 48px;
+            }
+
+            .hero-text {
+                flex: 0 0 35%;
+                text-align: left;
+            }
+
+            .hero-image-sequence {
+                flex: 1;
+                max-width: 65%;
+                min-height: 400px;
+            }
+
+            .showcase-animation-container {
+                min-height: 450px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image-sequence {
+                max-width: 90%;
+                min-height: 380px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1686,6 +1739,11 @@
             .hero-image-sequence {
                 max-width: 100%;
                 width: 100%;
+                min-height: 280px;
+            }
+
+            .showcase-animation-container {
+                min-height: 320px;
             }
 
             .footer-top {
@@ -1718,6 +1776,16 @@
             }
         }
     </style>
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?b00f12adaf5e1212cbfae150084e8f4a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
 </head>
 <body>
@@ -2112,7 +2180,7 @@
                 </div>
             </div>
               <div class="footer-bottom">
-                <p class="footer-copyright">访问次数：<span id="visit-count">0</span> | 作者：张先生 | 联系方式：15220107783</p>
+                <p class="footer-copyright">访问次数：<span id="visit-count">0</span> | 总访问量：<span id="total-count">0</span> | 作者：张先生 | 联系方式：15220107783</p>
             </div>
         </div>
     </footer>
@@ -2957,6 +3025,23 @@
             new TouchInteractionHandler(btn, {
                 onTap: handleBuyNowClick.bind(btn)
             });
+        });
+    </script>
+    <script>
+        function updateVisitCount() {
+            let visit = localStorage.getItem('pageVisit') || 0;
+            visit = parseInt(visit) + 1;
+            localStorage.setItem('pageVisit', visit);
+            document.getElementById('visit-count').innerText = visit;
+
+            let total = localStorage.getItem('totalVisit') || 0;
+            total = parseInt(total) + 1;
+            localStorage.setItem('totalVisit', total);
+            document.getElementById('total-count').innerText = total;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVisitCount();
         });
     </script>
 </body>

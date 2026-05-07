@@ -1718,6 +1718,17 @@
             }
         }
     </style>
+    
+    <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b00f12adaf5e1212cbfae150084e8f4a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
 </head>
 <body>
     <!-- Navigation -->
@@ -2110,12 +2121,24 @@
                     </form>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p class="footer-copyright">访问次数：<span id="visit-count">0</span> | 作者：张先生 | 联系方式：15220107783</p>
-            </div>
-        </div>
-    </footer>
-    <script>
+               </footer>
+    <div class="footer-bottom">
+        <p class="footer-copyright">访问次数：<span id="visit-count">0</span> | 作者：张先生 | 联系方式：15220107783</p>
+    </div>
+
+<script>
+// 访客计数 本地存储统计
+(function(){
+    // 从本地取值，没有就默认0
+    let count = localStorage.getItem('visit-count-num') || 0;
+    // 次数+1
+    count = parseInt(count) + 1;
+    // 存回去
+    localStorage.setItem('visit-count-num', count);
+    // 渲染到页面
+    document.getElementById('visit-count').innerText = count;
+})();
+</script>
         class TouchInteractionHandler {
             constructor(element, options = {}) {
                 this.element = element;

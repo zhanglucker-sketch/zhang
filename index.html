@@ -1469,24 +1469,38 @@ var _hmt = _hmt || [];
 </footer>
 
 <script>
+// Counter API 配置
+const namespace = "lucker";
+const key = "resume-download";
+
 // 初始化下载次数显示
 function initDownloadCount() {
-  const downloadCount = localStorage.getItem('downloadCount') || 7;
-  const countElement = document.getElementById('downloadCount');
-  if (countElement) {
-    countElement.textContent = downloadCount.toLocaleString();
-  }
+  fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`)
+    .then(r => r.json())
+    .then(d => {
+      const countElement = document.getElementById('downloadCount');
+      if (countElement) {
+        countElement.textContent = d.count.toLocaleString();
+      }
+    })
+    .catch(() => {
+      const countElement = document.getElementById('downloadCount');
+      if (countElement) {
+        countElement.textContent = '--';
+      }
+    });
 }
 
 // 更新下载次数
 function updateDownloadCount() {
-  const currentCount = parseInt(localStorage.getItem('downloadCount') || 7, 10);
-  const newCount = currentCount + 1;
-  localStorage.setItem('downloadCount', newCount.toString());
-  const countElement = document.getElementById('downloadCount');
-  if (countElement) {
-    countElement.textContent = newCount.toLocaleString();
-  }
+  fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+    .then(r => r.json())
+    .then(d => {
+      const countElement = document.getElementById('downloadCount');
+      if (countElement) {
+        countElement.textContent = d.count.toLocaleString();
+      }
+    });
 }
 
 // 页面加载完成后初始化下载次数

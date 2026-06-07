@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目清单 | 案例总览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #e5e5e5;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 头部简介 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #aaa;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 核心优势板块 */
+        .advantage {
+            background-color: #111;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border: 1px solid #222;
+        }
+
+        .advantage h2 {
+            color: #f0b860;
+            font-size: 22px;
+            margin-bottom: 15px;
+            border-left: 4px solid #f0b860;
+            padding-left: 12px;
+        }
+
+        .advantage ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .advantage li {
+            padding: 8px 0;
+            color: #ddd;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .advantage li::before {
+            content: "●";
+            color: #f0b860;
+            position: absolute;
+            left: 0;
+        }
+
+        /* 分类标题 */
+        .cate-title {
+            font-size: 20px;
+            color: #f0b860;
+            margin: 35px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #333;
+        }
+
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #0a0a0a;
+        }
+
+        th, td {
+            border: 1px solid #222;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1a1a1a;
+            color: #f0b860;
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background-color: #111;
+        }
+
+        tr:hover {
+            background-color: #222;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+<script>
+ var _hmt = _hmt || [];
+ (function() {
+   var hm = document.createElement("script");
+   hm.src = "https://hm.baidu.com/hm.js?b00f12adaf5e1212cbfae150084e8f4a";
+   var s = document.getElementsByTagName("script")[0]; 
+   s.parentNode.insertBefore(hm, s);
+ })();
+ </script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部个人简介 -->
+        <div class="header">
+            <h1>项目清单 · 案例总览</h1>
+            <p>本人深耕数字视觉、裸眼3D、XR虚拟场景、舞美设计、展厅展陈等领域，具备全流程项目统筹、团队管理、方案落地与风险管控能力，服务多行业客户，项目交付经验丰富。</p>
+        </div>
+
+        <!-- 核心优势板块 -->
+        <div class="advantage">
+            <h2>核心职业优势</h2>
+            <ul>
+                <li>全周期项目管控：覆盖立项、需求对接、方案设计、进度管控、验收交付全流程</li>
+                <li>多领域项目经验：擅长裸眼3D、虚拟内容、舞美视觉、沉浸式展厅、展会内容制作</li>
+                <li>标杆项目操盘：主导多个国家级晚会、赛事、文旅地标类重点项目落地</li>
+                <li>团队统筹能力：可统筹多人协作团队，协调跨部门工作，保障项目时效</li>
+                <li>投标与商务配合：具备丰富投标项目经验，擅长制作投标视觉方案与演示内容</li>
+                <li>海内外项目落地：承接国内及海外多地区项目，熟悉不同场景内容制作与交付标准</li>
+            </ul>
+        </div>
+
+        <!-- 1. 产品发布会类 -->
+        <h2 class="cate-title">一、产品发布会类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AI 闪耀中国 2025 吴晓波科技人文秀</td>
+                    <td>发布会全案视觉设计、虚拟场景搭建、XR拍摄配合与整体包装</td>
+                    <td rowspan="3">30+场全案，覆盖科技/家居/快消多行业客户</td>
+                </tr>
+                <tr>
+                    <td>永艺新品发布会</td>
+                    <td>场景资产制作、交互设计、视频剪辑与虚拟发布会全流程落地</td>
+                </tr>
+                <tr>
+                    <td>奈丝公主发布会</td>
+                    <td>品牌发布会视觉全案设计、舞台视觉内容制作与现场执行支持</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 2. 裸眼3D商业动画类 -->
+        <h2 class="cate-title">二、裸眼3D商业动画类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>京东（全国）裸眼3D系列项目</td>
+                    <td>多城户外大屏裸眼3D动画制作、旧片改版、多版本内容输出</td>
+                    <td rowspan="4">50+城市项目，100+条内容制作，覆盖国内外多地区</td>
+                </tr>
+                <tr>
+                    <td>南昌万达秋水之光裸眼3D</td>
+                    <td>裸眼3D动画全流程设计、效果优化与上屏适配</td>
+                </tr>
+                <tr>
+                    <td>菲律宾/印尼裸眼3D项目</td>
+                    <td>海外商场大屏裸眼3D内容定制与改制，适配当地文化与场景</td>
+                </tr>
+                <tr>
+                    <td>上海花旗银行裸眼3D项目</td>
+                    <td>金融类商业裸眼3D内容设计与落地，兼顾品牌调性与视觉效果</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 3. 国家级晚会/赛事类 -->
+        <h2 class="cate-title">三、国家级晚会/赛事类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2023-2026央视春晚相关项目</td>
+                    <td>XR舞台场景、裸眼3D内容制作、舞美视觉技术支持与现场配合</td>
+                    <td rowspan="4">30+场国家级活动，10亿+人次触达，行业标杆案例</td>
+                </tr>
+                <tr>
+                    <td>十五届全运会闭幕式项目</td>
+                    <td>闭幕式舞美视觉内容设计、裸眼3D动画制作与全流程落地</td>
+                </tr>
+                <tr>
+                    <td>CBA联赛开场视觉项目</td>
+                    <td>赛事开场秀动画、裸眼3D内容制作、多场次内容适配</td>
+                </tr>
+                <tr>
+                    <td>女子冰球世锦赛相关项目</td>
+                    <td>赛事开幕式视觉内容制作、大屏内容适配与现场执行支持</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 4. 展厅/展会/CAVE类 -->
+        <h2 class="cate-title">四、展厅/展会/CAVE类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>中央戏剧学院剧场项目</td>
+                    <td>剧场空间视觉设计、CAVE空间内容制作与交互开发</td>
+                    <td rowspan="5">50+个展厅项目，参与10+国际展会，覆盖政企/教育/科技多领域</td>
+                </tr>
+                <tr>
+                    <td>杭州山海经经展项目</td>
+                    <td>沉浸式展厅内容制作、动态视觉设计与多屏内容适配</td>
+                </tr>
+                <tr>
+                    <td>人民网白泽光影展20周年项目</td>
+                    <td>光影展视觉全案设计、动态内容制作与多场景落地</td>
+                </tr>
+                <tr>
+                    <td>华为龙岗艺术中心/东方瑰宝数字展厅</td>
+                    <td>数字展厅内容设计、虚拟场景制作与交互视觉开发</td>
+                </tr>
+                <tr>
+                    <td>军博会相关项目</td>
+                    <td>展会视觉内容制作、大屏内容适配与现场执行支持</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 5. 文旅地标类 -->
+        <h2 class="cate-title">五、文旅地标类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>牛首山菩提道项目</td>
+                    <td>角色建模、空间方案设计、场景搭建渲染与后期包装制作</td>
+                    <td rowspan="5">40+文旅项目，服务1000万+年游客，覆盖多城市地标</td>
+                </tr>
+                <tr>
+                    <td>佛山千灯湖灯光秀项目</td>
+                    <td>夜游动画、光影内容制作、水幕视频与多场景适配</td>
+                </tr>
+                <tr>
+                    <td>多机场/交通枢纽项目</td>
+                    <td>宝安/白云/兰州/天府机场大屏视觉内容制作与落地</td>
+                </tr>
+                <tr>
+                    <td>重庆江北嘴十联屏灯光秀项目</td>
+                    <td>多联屏裸眼3D灯光秀内容设计、动态视觉制作与上屏适配</td>
+                </tr>
+                <tr>
+                    <td>三亚/德基电影院项目</td>
+                    <td>影院沉浸式视觉内容制作、空间动态视觉设计</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 6. 跨境企业定制类 -->
+        <h2 class="cate-title">六、跨境企业定制类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>沙特利亚德项目</td>
+                    <td>海外场馆视觉内容定制、多语言适配与跨文化内容制作</td>
+                    <td rowspan="3">40+国内外客户，15+跨境项目，覆盖中东/东南亚/中亚等地区</td>
+                </tr>
+                <tr>
+                    <td>乌兹别克斯坦商场项目</td>
+                    <td>海外商场大屏内容定制、裸眼3D动画制作与当地文化适配</td>
+                </tr>
+                <tr>
+                    <td>习酒智慧门店项目</td>
+                    <td>智慧门店数字视觉内容制作、交互内容开发与多门店适配</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 7. 数字人/XR虚拟资产平台类 -->
+        <h2 class="cate-title">七、数字人/XR虚拟资产平台类</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>标杆/核心项目</th>
+                    <th>项目内容</th>
+                    <th>关键数据</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>KPL电竞酒店数字人项目</td>
+                    <td>数字人IP设计、动作制作、交互内容开发与场景适配</td>
+                    <td rowspan="3">30+数字人IP，1000+XR场景，覆盖电竞/AI/虚拟互动多领域</td>
+                </tr>
+                <tr>
+                    <td>XR千套场景项目</td>
+                    <td>标准化XR虚拟场景设计、制作与平台化落地，支持多行业复用</td>
+                </tr>
+                <tr>
+                    <td>AI全息情感陪伴舱产品项目</td>
+                    <td>虚拟交互场景制作、数字人情感内容开发与产品视觉设计</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
